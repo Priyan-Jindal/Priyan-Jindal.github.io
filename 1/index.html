@@ -57,13 +57,22 @@
         <!-- Project Description -->
         <section class="description">
             <h2>Project Description</h2>
-            <p>This section contains a brief overview of Project 1. You can describe the motivation, objectives, and key aspects of the project here.</p>
+            <p>The goal of this project is to reproduce a color image by aligning B, G, R color channels. Using different metrics for scoring alignments and implementing techniques to optimize its efficiency are the core of this project.</p>
         </section>
 
-        <!-- Project Procedure -->
+        <!-- Naive Procedure -->
         <section class="procedure">
-            <h2>Project Procedure</h2>
-            <p>Here you can outline the steps or methodology you followed for this project. Feel free to list the tools, datasets, algorithms, or processes used to complete the project.</p>
+            <h2>Naive Procedure</h2>
+            <p>
+                For my naive approach I found that a metric called mutual information worked best for me. In image processing, mutual information (MI)
+                is used to align two images by measuring the amount of shared information between them. It calculates the joint probability distribution
+                of pixel intensities from both images, helping to determine the best alignment. MI is robust for aligning images from different modalities,
+                such as grayscale and infrared, as it does not rely on direct pixel-to-pixel comparisons. The goal is to maximize the mutual information,
+                meaning the images are aligned when they share the most information. This makes MI ideal for tasks like medical imaging and multi-modal
+                image registration. 
+                I used a range of displacements in X and Y direction from [-15,15] for the green and red channels and calculated the mutual information score with the
+                blue channel for each displacement, and chose the displacement with the best score. 
+            </p>
         </section>
 
         <!-- Image Gallery -->
