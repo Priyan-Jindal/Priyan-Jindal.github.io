@@ -20,33 +20,80 @@
         main {
             margin: 20px;
         }
-        .media-gallery {
+        h2, h3 {
+            color: #333;
+        }
+        .description, .procedure {
+            margin-bottom: 20px;
+        }
+        .image-gallery {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 20px;
         }
-        .media-gallery img {
+        .image-item {
+            width: calc(50% - 10px);
+            margin-bottom: 20px;
+        }
+        .image-item img {
             width: 100%;
-            max-width: 300px;
             height: auto;
             border: 1px solid #ddd;
             border-radius: 5px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .image-title {
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <header>
         <h1>Project 1</h1>
-        <p>Description of Project 1 goes here.</p>
     </header>
     <main>
-        <h2>Media Gallery</h2>
-        <div class="media-gallery">
-            <img src="media/img1.jpg" alt="Image 1">
+        <!-- Project Description -->
+        <section class="description">
+            <h2>Project Description</h2>
+            <p>This section contains a brief overview of Project 1. You can describe the motivation, objectives, and key aspects of the project here.</p>
+        </section>
+
+        <!-- Project Procedure -->
+        <section class="procedure">
+            <h2>Project Procedure</h2>
+            <p>Here you can outline the steps or methodology you followed for this project. Feel free to list the tools, datasets, algorithms, or processes used to complete the project.</p>
+        </section>
+
+        <!-- Image Gallery -->
+        <section class="image-gallery">
+            <!-- Image 1 -->
+            <div class="image-item">
+                <div class="image-title">Image Title 1</div>
+                <img src="media/img1.jpg" alt="Image 1">
+            </div>
+
+            <!-- Image 2 -->
+            <div class="image-item">
+                <div class="image-title">Image Title 2</div>
+                <img src="media/img2.jpg" alt="Image 2">
+            </div>
+
+            <!-- Image 3 -->
+            <div class="image-item">
+                <div class="image-title">Image Title 3</div>
+                <img src="media/img3.jpg" alt="Image 3">
+            </div>
+
+            <!-- Image 4 -->
+            <div class="image-item">
+                <div class="image-title">Image Title 4</div>
+                <img src="media/img4.jpg" alt="Image 4">
+            </div>
+            
             <!-- Add more images as needed -->
-        </div>
+        </section>
     </main>
 </body>
 </html>
-
