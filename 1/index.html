@@ -102,8 +102,84 @@
             <h2>Naive Procedure</h2>
             <p>
                 In order to deal with much larger images where an exhaustive search of displacements would be far too
-                inefficient, I implemented a 
+                inefficient, I implemented an image pyramid structure, where I iterate from a downscaled images by factor of 8, 4, 2, 1.
+                Starting from displacement 8, we go through a set amount of displacements, grab the one with best alignment score, and move
+                to the next iteration. The reason this implementation is faster is that we can lower the range of displacements we check
+                at each iteration because we have an approximate location of the best displacement, based on the last iteration. We can afford
+                larger search ranges on more downscaled images because computing the alignment metric is faster with lower resolution images.
+
+                The metric I used for this case is called structural similarity. This is significantly faster than mutual information, but also
+                more accurate than NCC, Euclidean, etc. 
             </p>
+        </section>
+
+        <!-- Image Gallery -->
+        <section class="image-gallery">
+            <!-- Cathderal -->
+            <div class="image-item">
+                <div class="image-title">Church</div>
+                <img src="media/church.jpg" alt="Image 1">
+            </div>
+
+            <!-- Image 2 -->
+            <div class="image-item">
+                <div class="image-title">Emir</div>
+                <img src="media/emir.jpg" alt="Image 2">
+            </div>
+
+            <!-- Image 3 -->
+            <div class="image-item">
+                <div class="image-title">Harvesters</div>
+                <img src="media/harvesters.jpg" alt="Image 3">
+            </div>
+
+            <!-- Image 4 -->
+            <div class="image-item">
+                <div class="image-title">Icon</div>
+                <img src="media/icon.jpg" alt="Image 3">
+            </div>
+
+            <!-- Image 5 -->
+            <div class="image-item">
+                <div class="image-title">Lady</div>
+                <img src="media/lady.jpg" alt="Image 3">
+            </div>
+
+            <!-- Image 6 -->
+            <div class="image-item">
+                <div class="image-title">Melons</div>
+                <img src="media/melons.tif" alt="Image 3">
+            </div>
+
+            <!-- Image 7 -->
+            <div class="image-item">
+                <div class="image-title">Onion Church</div>
+                <img src="media/onion_church.jpg" alt="Image 3">
+            </div>
+
+            <!-- Image 8 -->
+            <div class="image-item">
+                <div class="image-title">Sculpture</div>
+                <img src="media/sculpture.jpg" alt="Image 3">
+            </div>
+
+            <!-- Image 9 -->
+            <div class="image-item">
+                <div class="image-title">Self Portrait</div>
+                <img src="media/self_portrait.jpg" alt="Image 3">
+            </div>
+
+            <!-- Image 10 -->
+            <div class="image-item">
+                <div class="image-title">Three Generations</div>
+                <img src="media/three_generations.jpg" alt="Image 3">
+            </div>
+
+            <!-- Image 11 -->
+            <div class="image-item">
+                <div class="image-title">Train</div>
+                <img src="media/train.jpg" alt="Image 3">
+            </div>
         </section>
     </main>
 </body>
