@@ -69,7 +69,8 @@
                 of pixel intensities from both images, helping to determine the best alignment. MI is robust for aligning images from different modalities,
                 such as grayscale and infrared, as it does not rely on direct pixel-to-pixel comparisons. The goal is to maximize the mutual information,
                 meaning the images are aligned when they share the most information. This makes MI ideal for tasks like medical imaging and multi-modal
-                image registration. 
+                image registration.
+                <br>
                 I used a range of displacements in X and Y direction from [-15,15] for the green and red channels and calculated the mutual information score with the
                 blue channel for each displacement, and chose the displacement with the best score. 
             </p>
@@ -107,9 +108,14 @@
                 to the next iteration. The reason this implementation is faster is that we can lower the range of displacements we check
                 at each iteration because we have an approximate location of the best displacement, based on the last iteration. We can afford
                 larger search ranges on more downscaled images because computing the alignment metric is faster with lower resolution images.
-
-                The metric I used for this case is called structural similarity. This is significantly faster than mutual information, but also
-                more accurate than NCC, Euclidean, etc. 
+                <br>
+                The metric I used for this case is called structural similarity. The Structural Similarity Index (SSIM) is a powerful metric for 
+                image alignment because it evaluates the perceived structural content of images, rather than just pixel-wise differences. It is
+                widely used in applications such as image registration, compression, and quality assessment. Computing SS score is significantly 
+                faster than mutual information, but also more accurate than NCC, Euclidean, etc. 
+                <br>
+                Another important thing to note is that borders can often mess up the calculations of metrics used to measure alignment scores. 
+                By calculating metrics within a 20 pixel margin of the borders, I was able to get more accurate displacements.
             </p>
         </section>
 
