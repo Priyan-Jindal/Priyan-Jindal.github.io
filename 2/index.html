@@ -1,1 +1,155 @@
-a
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Project #2 - Fun with Filters and Frequencies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            margin: 20px;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        .description, .procedure {
+            margin-bottom: 20px;
+        }
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .image-item {
+            width: calc(33.333% - 20px); /* 3 images per row */
+            margin-bottom: 20px;
+        }
+        .image-item img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .image-title {
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="media/berkeley-logo.jpg" alt="Berkeley Logo" style="height: 50px;">
+        <h1>Programming Project #2 (proj2)</h1>
+        <h3>CS180: Intro to Computer Vision and Computational Photography</h3>
+        <p>Due Date: 11:59pm on Monday, Sep 23, 2024</p>
+    </header>
+    <main>
+        <!-- Project Description -->
+        <section class="description">
+            <h2>Project Description</h2>
+            <p>In this project, I explored the concepts of 2D convolutions, filtering, and image processing. The project is split into two major parts: Fun with Filters and Fun with Frequencies, where I applied various filters to generate meaningful results and visualizations. Below are the results and explanations for each part of the project.</p>
+        </section>
+
+        <!-- Part 1: Fun with Filters -->
+        <section class="procedure">
+            <h2>Part 1: Fun with Filters</h2>
+            <h3>Part 1.1: Finite Difference Operator</h3>
+            <p>Using the finite difference operator, I computed the partial derivatives of the Cameraman image in the x and y directions, followed by calculating the gradient magnitude and applying a threshold to create an edge-detected image.</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">Partial Derivatives and Gradient Magnitude</div>
+                    <img src="media/1.1-partial-derivatives-and-gradient-magnitude-images.jpg" alt="Partial Derivatives">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Binarized Edge Image</div>
+                    <img src="media/1.1-binarizededgeimage.jpg" alt="Binarized Edge">
+                </div>
+            </div>
+
+            <h3>Part 1.2: Derivative of Gaussian (DoG) Filter</h3>
+            <p>After applying the DoG filter, I was able to reduce noise significantly while preserving the edges of the image. Here are the results:</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">DoG Filter Partials and Gradient Magnitude</div>
+                    <img src="media/1-2-dog-partials-and-gradient-magnitude.jpg" alt="DoG Filter Partials">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Binarized Edge Image (DoG)</div>
+                    <img src="media/1.2-binarized-edge-image.jpg" alt="Binarized Edge (DoG)">
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 2: Fun with Frequencies -->
+        <section class="procedure">
+            <h2>Part 2: Fun with Frequencies</h2>
+
+            <h3>Part 2.1: Image "Sharpening"</h3>
+            <p>In this section, I used unsharp masking to sharpen images. Below are the results:</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">Original Image</div>
+                    <img src="media/curry-original.jpg" alt="Original">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Sharpened Image</div>
+                    <img src="media/curry-final.jpg" alt="Sharpened">
+                </div>
+            </div>
+
+            <h3>Part 2.2: Hybrid Images</h3>
+            <p>In this part, I created hybrid images by combining the low-frequency and high-frequency information of two different images. Below are some hybrid image results:</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">Hybrid Image (Jackson)</div>
+                    <img src="media/hybrid-jackson.jpg" alt="Hybrid Jackson">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">High Frequency Component (Jackson)</div>
+                    <img src="media/hybrid-jackson-freq.jpg" alt="Jackson High Freq">
+                </div>
+            </div>
+
+            <h3>Part 2.3: Gaussian and Laplacian Stacks</h3>
+            <p>Here are the Gaussian and Laplacian stacks for my selected images:</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">Laplacian Stack (Khart)</div>
+                    <img src="media/khart-laplacian-1.jpg" alt="Laplacian Stack Khart">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Laplacian Stack (Khart - Level 2)</div>
+                    <img src="media/khart-laplacian-2.jpg" alt="Laplacian Stack Level 2">
+                </div>
+            </div>
+
+            <h3>Part 2.4: Multiresolution Blending (Oraple)</h3>
+            <p>Using multiresolution blending, I created a seamless blend between two images (an apple and an orange). Below are the results:</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">Final Oraple Image</div>
+                    <img src="media/oraple-final.jpg" alt="Oraple Final">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Laplacian Stack (Oraple)</div>
+                    <img src="media/oraple-laplacian-2.jpg" alt="Laplacian Oraple">
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
