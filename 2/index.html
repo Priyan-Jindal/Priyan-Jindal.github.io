@@ -57,6 +57,19 @@
             text-align: center;
             margin-bottom: 10px;
         }
+        .image-item-landscape {
+            width: 100%; /* Container takes full width */
+            margin: 0 auto 20px; /* Center the image and add space at the bottom */
+            padding: 0 20px; /* Add padding so the image doesn't touch the edges */
+        }
+
+        .image-item-landscape img {
+            width: 100%; /* Make the image take the full width of its container */
+            height: auto; /* Maintain the image's aspect ratio */
+            border-radius: 5px; /* Optional: Rounded corners */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a slight shadow */
+        }
+
     </style>
 </head>
 <body>
@@ -109,13 +122,13 @@
             <h3>Part 2.1: Image "Sharpening"</h3>
             <p>In this section, I used unsharp masking to sharpen images. Below are the results:</p>
             <div class="image-gallery">
-                <div class="image-item">
-                    <div class="image-title">Original Image</div>
-                    <img src="media/curry-original.jpg" alt="Original">
+                <div class="image-item-landscape">
+                    <div class="image-title">Taj Mahal Sharpening</div>
+                    <img src="taj-sharpening.jpg" alt="Landscape Image">
                 </div>
-                <div class="image-item">
-                    <div class="image-title">Sharpened Image</div>
-                    <img src="media/curry-final.jpg" alt="Sharpened">
+                <div class="image-item-landscape">
+                    <div class="image-title">Naruto Sharpening</div>
+                    <img src="naruto-sharpening.jpg" alt="Landscape Image">
                 </div>
             </div>
 
