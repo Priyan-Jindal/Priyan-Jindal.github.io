@@ -35,6 +35,10 @@
             width: calc(33.333% - 20px); /* 3 images per row */
             margin-bottom: 20px;
         }
+        .image-item-small {
+            width: calc(16.6% - 20px); /* 3 images per row */
+            margin-bottom: 20px;
+        }
         .image-item img {
             width: 100%;
             height: auto;
@@ -113,15 +117,42 @@
             <h3>Part 2.2: Hybrid Images</h3>
             <p>In this part, I created hybrid images by combining the low-frequency and high-frequency information of two different images. Below are some hybrid image results:</p>
             <div class="image-gallery">
-                <div class="image-item">
-                    <div class="image-title">Hybrid Image (Jackson)</div>
-                    <img src="media/hybrid-jackson.jpg" alt="Hybrid Jackson">
+                <div class="image-item-small">
+                    <div class="image-title">Young Michael Jackson</div>
+                    <img src="media/jackson-young.jpg" alt="young Jackson">
                 </div>
-                <div class="image-item">
-                    <div class="image-title">High Frequency Component (Jackson)</div>
-                    <img src="media/hybrid-jackson-freq.jpg" alt="Jackson High Freq">
+                <div class="image-item-small">
+                    <div class="image-title">Older Michael Jackson</div>
+                    <img src="media/jackson-old.jpg" alt="old Jackson">
+                </div>
+                <div class="image-item-small">
+                    <div class="image-title">Hybrid Michael Jackson</div>
+                    <img src="media/hybrid-jackson.jpg" alt="hybrid Jackson">
                 </div>
             </div>
+            <div class="image-gallery">
+                <div class="image-item-small">
+                    <div class="image-title">Young MJ FFT</div>
+                    <img src="media/young-mj-freq.jpg" alt="Jackson High Freq">
+                </div>
+                <div class="image-item-small">
+                    <div class="image-title">Young MJ Filtered</div>
+                    <img src="media/young-mj-filtered.jpg" alt="Jackson High Freq">
+                </div>
+                <div class="image-item-small">
+                    <div class="image-title">Old MJ FFT</div>
+                    <img src="media/old-mj-freq.jpg" alt="Jackson High Freq">
+                </div>
+                <div class="image-item-small">
+                    <div class="image-title">Old MJ Filtered</div>
+                    <img src="media/old-mj-filtered.jpg" alt="Jackson High Freq">
+                </div>
+                <div class="image-item-small">
+                    <div class="image-title">Hybrid MJ FFT</div>
+                    <img src="media/hybrid-mj-freq.jpg" alt="Jackson High Freq">
+                </div>
+            <div class="image-gallery">
+            
 
             <h3>Part 2.3: Gaussian and Laplacian Stacks</h3>
             <p>Here are the Gaussian and Laplacian stacks for the orange and apple and their final blended result.</p>
@@ -186,5 +217,6 @@
     </main>
 </body>
 </html>
+
 
 
