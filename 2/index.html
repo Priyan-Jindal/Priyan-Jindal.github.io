@@ -36,9 +36,15 @@
             margin-bottom: 20px;
         }
         .image-item-small {
-            width: calc(16.6% - 20px); /* 3 images per row */
+            width: calc(16.6667% - 20px); /* 6 images per row */
             margin-bottom: 20px;
         }
+
+        .image-item-small img {
+            width: 100%; /* Ensure the image fits inside the container */
+            height: auto; /* Maintain aspect ratio */
+        }
+
         .image-item img {
             width: 100%;
             height: auto;
