@@ -190,7 +190,8 @@
             
 
             <h3>Part 2.3: Gaussian and Laplacian Stacks</h3>
-            <p>Here are the Gaussian and Laplacian stacks for the orange and apple and their final blended result.</p>
+            <p>Laplacian stacks are created from the two input images, an apple and an orange. I then generate a gaussian stack from the mask image. Using this gaussian stack of masks 
+            and the laplacian stacks for both images, I blend at each frequency level and then concatenate the final blended stack for a final blended image, the oraple.</p>
             <div class="image-gallery">
                 <div class="image-item">
                     <div class="image-title">Laplacian Stack (Oraple Levels 0-2)</div>
@@ -207,7 +208,9 @@
             </div>
 
             <h3>Part 2.4: Multiresolution Blending with Irregular Masks - Monster Kevin Hart and Steph Curry, the Chosen One</h3>
-            <p>Using irregular masks - curry and lebron</p>
+            <p>Similar process at part 2.3, however I use an irregular mask in this case. For example, in the Steph Curry with Lebron Jersey blend, the mask
+                is black everywhere except over Lebron's Cavs jersey, where it is white. We then use this irregular mask's Gaussian stack and the laplacian stacks 
+                of the two input images to create a blend. For the Kevin Hart/Yao+Shaq blend, the mask covers Yao and Shaq's bodies and is black everywhere else.</p>
             <div class="image-gallery">
                 <div class="image-item">
                     <div class="image-title">Steph Curry</div>
