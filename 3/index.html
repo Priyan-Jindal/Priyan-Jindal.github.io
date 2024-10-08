@@ -1,1 +1,158 @@
-x
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Project #3 - Face Morphing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            margin: 20px;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        .description, .procedure {
+            margin-bottom: 20px;
+        }
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .image-item {
+            width: calc(33.333% - 20px); /* 3 images per row */
+            margin-bottom: 20px;
+        }
+        .image-item img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .image-item-full {
+            width: 100%; /* Full-width image */
+            margin-bottom: 20px;
+        }
+        .image-item-full img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .image-title {
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Programming Project #3 (proj3)</h1>
+        <h3>CS180: Intro to Computer Vision and Computational Photography</h3>
+        <p>Due Date: TBD</p>
+    </header>
+    <main>
+        <!-- Project Description -->
+        <section class="description">
+            <h2>Project Description</h2>
+            <p>In this project, I implemented face morphing techniques to create a morph animation, compute population mean faces, and generate caricatures. This involves defining correspondences between facial keypoints, creating a morph sequence, and extrapolating from the population mean face.</p>
+        </section>
+
+        <!-- Part 1: Defining Correspondences -->
+        <section class="procedure">
+            <h2>Part 1: Defining Correspondences</h2>
+            <p>Here, I manually selected facial keypoints on both images A and B to define correspondences between the two faces. I used Delaunay triangulation to create a mesh for morphing.</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">Priyan's Correspondence Points and Triangulation</div>
+                    <img src="media/triangulation_priyan.png" alt="Keypoints of Image A">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Nasan's Correspondence Points and Triangulation</div>
+                    <img src="media/triangulation_nasan.png" alt="Keypoints of Image B">
+            </div>
+        </section>
+
+        <!-- Part 2: Mid-way Face -->
+        <section class="procedure">
+            <h2>Part 2: Computing the "Mid-way Face"</h2>
+            <p>Using the defined correspondences, I computed the mid-way face by averaging the shape of both images and warping them into the average shape, then blending the colors.</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">Priyan</div>
+                    <img src="media/priyan.png" alt="Image A">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Mid-way Face Prisan</div>
+                    <img src="media/midway.png" alt="Mid-way Face">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Nasan</div>
+                    <img src="media/nasan_1.png" alt="Image B">
+                </div
+            </div>
+        </section>
+
+        <!-- Part 3: Morph Sequence -->
+        <section class="procedure">
+            <h2>Part 3: Morph Sequence</h2>
+            <p>Below is the morph sequence from Image A to Image B, showing the smooth transition between the two faces.</p>
+            <div class="image-item">
+                <div class="image-title">Morph Sequence</div>
+                <img src="media/morph.gif" alt="Morph Sequence">
+            </div>
+        </section>
+
+        <!-- Part 4: Mean Face of a Population -->
+        <section class="procedure">
+            <h2>Part 4: Mean Face of a Population</h2>
+            <p>I used a dataset of annotated faces to compute the average face shape and appearance of the population. I then warped several faces into the average shape and computed the population's mean face.</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">Face 1 Warped to Mean Shape</div>
+                    <img src="media/face1_meanshape.jpg" alt="Face 1 Warped">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Face 2 Warped to Mean Shape</div>
+                    <img src="media/face2_meanshape.jpg" alt="Face 2 Warped">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Population Mean Face</div>
+                    <img src="media/mean_face.jpg" alt="Population Mean Face">
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 5: Caricatures -->
+        <section class="procedure">
+            <h2>Part 5: Caricatures</h2>
+            <p>By extrapolating from the population mean, I created a caricature of my face. Below is the result of this extrapolation.</p>
+            <div class="image-item-full">
+                <div class="image-title">Caricature of My Face</div>
+                <img src="media/caricature.jpg" alt="Caricature of My Face">
+            </div>
+        </section>
+
+        <!-- Bells and Whistles -->
+        <section class="procedure">
+            <h2>Bells and Whistles</h2>
+            <p>I implemented a morphing music video that shows transformations of faces in a theme, showcasing shape and appearance morphs. Watch the video <a href="https://youtu.be/samplelink">here</a>.</p>
+        </section>
+    </main>
+</body>
+</html>
