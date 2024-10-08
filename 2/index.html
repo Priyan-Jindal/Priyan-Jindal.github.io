@@ -57,6 +57,19 @@
             text-align: center;
             margin-bottom: 10px;
         }
+        .image-item-landscape {
+            width: 100%; /* Container takes full width */
+            margin: 0 auto 20px; /* Center the image and add space at the bottom */
+            padding: 0 20px; /* Add padding so the image doesn't touch the edges */
+        }
+
+        .image-item-landscape img {
+            width: 100%; /* Make the image take the full width of its container */
+            height: auto; /* Maintain the image's aspect ratio */
+            border-radius: 5px; /* Optional: Rounded corners */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a slight shadow */
+        }
+
     </style>
 </head>
 <body>
@@ -69,18 +82,20 @@
         <!-- Project Description -->
         <section class="description">
             <h2>Project Description</h2>
-            <p>In this project, I explored the concepts of 2D convolutions, filtering, and image processing. The project is split into two major parts: Fun with Filters and Fun with Frequencies, where I applied various filters to generate meaningful results and visualizations. Below are the results and explanations for each part of the project.</p>
+            <p>In this project, I explored the concepts of 2D convolutions, filtering, and image processing. The project is split into two major parts: Fun with Filters
+                and Fun with Frequencies, where I applied various filters and frequency manipulations to generate meaningful results and visualizations. 
+                Below are the results and explanations for each part of the project.</p>
         </section>
 
         <!-- Part 1: Fun with Filters -->
         <section class="procedure">
             <h2>Part 1: Fun with Filters</h2>
             <h3>Part 1.1: Finite Difference Operator</h3>
-            <p>Using the finite difference operator, I computed the partial derivatives of the Cameraman image in the x and y directions, followed by calculating the gradient magnitude and applying a threshold to create an edge-detected image.</p>
+            <p>Using the finite difference operator, I computed the partial derivatives of the Cameraman image in the x and y directions using dx,dy = [1, -1], followed by calculating the gradient magnitude and applying a threshold to create an edge-detected image.</p>
             <div class="image-gallery">
-                <div class="image-item">
+                <div class="image-item-landscape">
                     <div class="image-title">Partial Derivatives and Gradient Magnitude</div>
-                    <img src="media/1.1-partial-derivatives-and-gradient-magnitude-images.jpg" alt="Partial Derivatives">
+                    <img src="media/1.1 partial derivatives and gradient magnitude images.jpg" alt="Partial Derivatives">
                 </div>
                 <div class="image-item">
                     <div class="image-title">Binarized Edge Image</div>
@@ -89,11 +104,23 @@
             </div>
 
             <h3>Part 1.2: Derivative of Gaussian (DoG) Filter</h3>
-            <p>After applying the DoG filter, I was able to reduce noise significantly while preserving the edges of the image. Here are the results:</p>
+            <p>First, I used a Gaussian filter to blur the original image by convolving with a Gaussian, and then finding partial derivatives in x and y. The result contains smoother, cleaner,
+            and thicker edges. We have less noise and more accurate edge detection overall.</p>
             <div class="image-gallery">
-                <div class="image-item">
+                <div class="image-item-landscape">
                     <div class="image-title">DoG Filter Partials and Gradient Magnitude</div>
-                    <img src="media/1-2-dog-partials-and-gradient-magnitude.jpg" alt="DoG Filter Partials">
+                    <img src="media/1.2 partial derivatives and gradient magnitude images.jpg" alt="DoG Filter Partials">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Binarized Edge Image (DoG)</div>
+                    <img src="media/1.2-binarized-edge-image.jpg" alt="Binarized Edge (DoG)">
+                </div>
+            </div>
+            <p>Then, instead of convolving twice, I created a derivative of the gaussian filters and then applied to to the image. Result is pretty similar but a bit more accurate with a bit less noise.</p>
+            <div class="image-gallery">
+                <div class="image-item-landscape">
+                    <div class="image-title">DoG Filter Partials and Gradient Magnitude</div>
+                    <img src="media/1-2-dog-partials and gradient magnitude.jpg" alt="DoG Filter Partials">
                 </div>
                 <div class="image-item">
                     <div class="image-title">Binarized Edge Image (DoG)</div>
@@ -107,15 +134,16 @@
             <h2>Part 2: Fun with Frequencies</h2>
 
             <h3>Part 2.1: Image "Sharpening"</h3>
-            <p>In this section, I used unsharp masking to sharpen images. Below are the results:</p>
+            <p>In this section, I used unsharp masking to sharpen images. This involves subtracting the low frequencies from an image to isolate the high frequencies,
+                scaling the high frequencies up, and then adding them back to the original image to emphasize the high frequencies. Below are the results:</p>
             <div class="image-gallery">
-                <div class="image-item">
-                    <div class="image-title">Original Image</div>
-                    <img src="media/curry-original.jpg" alt="Original">
+                <div class="image-item-landscape">
+                    <div class="image-title">Taj Mahal Sharpening</div>
+                    <img src="media/taj-sharpening.jpg" alt="Landscape Image">
                 </div>
-                <div class="image-item">
-                    <div class="image-title">Sharpened Image</div>
-                    <img src="media/curry-final.jpg" alt="Sharpened">
+                <div class="image-item-landscape">
+                    <div class="image-title">Naruto Sharpening</div>
+                    <img src="media/naruto-sharpening.jpg" alt="Landscape Image">
                 </div>
             </div>
 
@@ -177,7 +205,8 @@
             
 
             <h3>Part 2.3: Gaussian and Laplacian Stacks</h3>
-            <p>Here are the Gaussian and Laplacian stacks for the orange and apple and their final blended result.</p>
+            <p>Laplacian stacks are created from the two input images, an apple and an orange. I then generate a gaussian stack from the mask image. Using this gaussian stack of masks 
+            and the laplacian stacks for both images, I blend at each frequency level and then concatenate the final blended stack for a final blended image, the oraple.</p>
             <div class="image-gallery">
                 <div class="image-item">
                     <div class="image-title">Laplacian Stack (Oraple Levels 0-2)</div>
@@ -194,7 +223,9 @@
             </div>
 
             <h3>Part 2.4: Multiresolution Blending with Irregular Masks - Monster Kevin Hart and Steph Curry, the Chosen One</h3>
-            <p>Using irregular masks - curry and lebron</p>
+            <p>Similar process at part 2.3, however I use an irregular mask in this case. For example, in the Steph Curry with Lebron Jersey blend, the mask
+                is black everywhere except over Lebron's Cavs jersey, where it is white. We then use this irregular mask's Gaussian stack and the laplacian stacks 
+                of the two input images to create a blend. For the Kevin Hart/Yao+Shaq blend, the mask covers Yao and Shaq's bodies and is black everywhere else.</p>
             <div class="image-gallery">
                 <div class="image-item">
                     <div class="image-title">Steph Curry</div>
