@@ -69,7 +69,9 @@
         <!-- Project Description -->
         <section class="description">
             <h2>Project Description</h2>
-            <p>In this project, I implemented face morphing techniques to create a morph animation, compute population mean faces, and generate caricatures. This involves defining correspondences between facial keypoints, creating a morph sequence, and extrapolating from the population mean face.</p>
+            <p>In this project, I used Delaunay triangulations to do a variety of things. I morphed my friend Nasan and my face and created a smooth transition to display the morphing.
+            I also computed the mean face of a large dataset of faces, and then morphed several of the faces to that mean. I created caricatures of my face using the average face
+            in regular basis and in a PCA basis for the keypoints.</p>
         </section>
 
         <!-- Part 1: Defining Correspondences -->
@@ -90,7 +92,7 @@
         <!-- Part 2: Mid-way Face -->
         <section class="procedure">
             <h2>Part 2: Computing the "Mid-way Face"</h2>
-            <p>Using the defined correspondences, I computed the mid-way face by averaging the shape of both images and warping them into the average shape, then blending the colors.</p>
+            <p>Using the defined correspondences, I computed the mid-way face by averaging the keypoints of both images and warping both images into the average shape, then blending the colors.</p>
             <div class="image-gallery">
                 <div class="image-item">
                     <div class="image-title">Priyan</div>
@@ -120,7 +122,7 @@
         <!-- Part 4: Mean Face of a Population -->
         <section class="procedure">
             <h2>Part 4: Mean Face of a Population</h2>
-            <p>I used the FEI dataset of annotated faces to compute the average face shape and appearance of the population. I then warped several faces into the average shape and computed the population's mean face.</p>
+            <p>I used the FEI dataset of annotated faces to compute the average face shape and appearance of the population. I then warped the first 5 faces in the dataset into the average shape and computed the population's mean face.</p>
             <div class="image-gallery">
                 <div class="image-item">
                     <div class="image-title">Face 1 Warped to Mean Shape</div>
