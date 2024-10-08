@@ -64,7 +64,6 @@
     <header>
         <h1>Programming Project #3 (proj3)</h1>
         <h3>CS180: Intro to Computer Vision and Computational Photography</h3>
-        <p>Due Date: TBD</p>
     </header>
     <main>
         <!-- Project Description -->
@@ -121,19 +120,35 @@
         <!-- Part 4: Mean Face of a Population -->
         <section class="procedure">
             <h2>Part 4: Mean Face of a Population</h2>
-            <p>I used a dataset of annotated faces to compute the average face shape and appearance of the population. I then warped several faces into the average shape and computed the population's mean face.</p>
+            <p>I used the FEI dataset of annotated faces to compute the average face shape and appearance of the population. I then warped several faces into the average shape and computed the population's mean face.</p>
             <div class="image-gallery">
                 <div class="image-item">
                     <div class="image-title">Face 1 Warped to Mean Shape</div>
-                    <img src="media/face1_meanshape.jpg" alt="Face 1 Warped">
+                    <img src="media/morph1.png" alt="Face 1 Warped">
                 </div>
                 <div class="image-item">
                     <div class="image-title">Face 2 Warped to Mean Shape</div>
-                    <img src="media/face2_meanshape.jpg" alt="Face 2 Warped">
+                    <img src="media/morph2.png" alt="Face 2 Warped">
                 </div>
                 <div class="image-item">
+                    <div class="image-title">Face 3 Warped to Mean Shape</div>
+                    <img src="media/morph3.png" alt="Face 2 Warped">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Face 4 Warped to Mean Shape</div>
+                    <img src="media/morph4.png" alt="Face 1 Warped">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Face 5 Warped to Mean Shape</div>
+                    <img src="media/morph5.png" alt="Face 2 Warped">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Face 6 Warped to Mean Shape</div>
+                    <img src="media/morph6.png" alt="Face 2 Warped">
+                </div>                
+                <div class="image-item">
                     <div class="image-title">Population Mean Face</div>
-                    <img src="media/mean_face.jpg" alt="Population Mean Face">
+                    <img src="media/avg.png" alt="Population Mean Face">
                 </div>
             </div>
         </section>
@@ -141,17 +156,22 @@
         <!-- Part 5: Caricatures -->
         <section class="procedure">
             <h2>Part 5: Caricatures</h2>
-            <p>By extrapolating from the population mean, I created a caricature of my face. Below is the result of this extrapolation.</p>
-            <div class="image-item-full">
+            <p>By extrapolating from the population mean, I created a caricature of my face. Below is the result of this extrapolation. Alpha value is -0.5. This means we are placing 1.5 weight on my keypoints and a negative 0.5 weight on the average keypoints.</p>
+            <div class="image-item">
                 <div class="image-title">Caricature of My Face</div>
-                <img src="media/caricature.jpg" alt="Caricature of My Face">
+                <img src="media/caricature.png" alt="Caricature of My Face">
             </div>
         </section>
 
         <!-- Bells and Whistles -->
         <section class="procedure">
-            <h2>Bells and Whistles</h2>
-            <p>I implemented a morphing music video that shows transformations of faces in a theme, showcasing shape and appearance morphs. Watch the video <a href="https://youtu.be/samplelink">here</a>.</p>
+            <h2>Bells and Whistles - PCA</h2>
+            <p>I computed several PCA bases for the face space, using different numbers of principal components. I then attempted to reconstruct three of the original images using these bases 
+            to see how many principal components are necessary for a good enough reconstruction. Below you can see the eigenfaces for the first 12 principal components.</p>
+            <div class="image-item-full">
+                <div class="image-title">Eigenfaces for 12 principal components</div>
+                <img src="media/eigenfaces.png" alt="Caricature of My Face">
+            </div>        
         </section>
     </main>
 </body>
