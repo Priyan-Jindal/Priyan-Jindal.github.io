@@ -78,7 +78,6 @@
             <h2>Part 1: Shoot the Pictures</h2>
             <p>(Description of the process, leaving space for images)</p>
             <div class="image-gallery">
-                <!-- Placeholder for the two images -->
                 <div class="image-item">
                     <div class="image-title">Left Image</div>
                     <img src="media/left.png" alt="Left Image">
@@ -95,31 +94,14 @@
             <h2>Part 2: Recover Homographies</h2>
             <p>In this step, we compute the homography matrix that aligns one image with the other. The homography is a 3x3 matrix that maps points in one image to corresponding points in another using projective transformation.</p>
             <p>We use point correspondences between the two images to set up a system of linear equations and solve for the homography matrix using Singular Value Decomposition (SVD).</p>
-            <pre>
-                <code>
-                def computeH(im1_pts, im2_pts):
-                    """
-                    Computes the homography matrix H that maps points in im1_pts to im2_pts.
-                    :param im1_pts: Corresponding points in the first image (Nx2 matrix).
-                    :param im2_pts: Corresponding points in the second image (Nx2 matrix).
-                    :return: The 3x3 homography matrix H.
-                    """
-                    n = im1_pts.shape[0]
-                    A = []
-
-                    for i in range(n):
-                        x1, y1 = im1_pts[i, :]
-                        x2, y2 = im2_pts[i, :]
-                        A.append([-x1, -y1, -1, 0, 0, 0, x2*x1, x2*y1, x2])
-                        A.append([0, 0, 0, -x1, -y1, -1, y2*x1, y2*y1, y2])
-
-                    A = np.array(A)
-                    U, S, Vh = np.linalg.svd(A)
-                    H = Vh[-1, :].reshape((3, 3))
-
-                    return H
-                </code>
-            </pre>
+            <div class="image-item">
+                    <div class="image-title">Left Image Correspondence Points</div>
+                    <img src="media/left_points.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Right Image</div>
+                    <img src="media/right_points.png" alt="Right Image">
+                </div>
         </section>
 
         <!-- Part 3: Warp the Images -->
