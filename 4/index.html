@@ -1,1 +1,170 @@
-yo
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Project - Image Mosaicing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            margin: 20px;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        .description, .procedure {
+            margin-bottom: 20px;
+        }
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .image-item {
+            width: calc(33.333% - 20px); /* 3 images per row */
+            margin-bottom: 20px;
+        }
+        .image-item img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .image-item-full {
+            width: 100%; /* Full-width image */
+            margin-bottom: 20px;
+        }
+        .image-item-full img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .image-title {
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Image Mosaicing Project</h1>
+        <h3>CS180: Intro to Computer Vision and Computational Photography</h3>
+    </header>
+    <main>
+        <!-- Project Description -->
+        <section class="description">
+            <h2>Project Description</h2>
+            <p>The goal of this project is to explore image warping and mosaicing. We take multiple photographs, align them using homographies, warp them, and blend them into a mosaic. 
+            The project introduces concepts of projective transformations and teaches how to compute homographies and use them for image mosaicing.</p>
+        </section>
+
+        <!-- Part 1: Shoot the Pictures -->
+        <section class="procedure">
+            <h2>Part 1: Shoot the Pictures</h2>
+            <p>(Description of the process, leaving space for images)</p>
+            <div class="image-gallery">
+                <!-- Placeholder for the two images -->
+                <div class="image-item">
+                    <div class="image-title">Left Image</div>
+                    <img src="media/left.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Right Image</div>
+                    <img src="media/middle.png" alt="Right Image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 2: Recover Homographies -->
+        <section class="procedure">
+            <h2>Part 2: Recover Homographies</h2>
+            <p>In this step, we compute the homography matrix that aligns one image with the other. The homography is a 3x3 matrix that maps points in one image to corresponding points in another using projective transformation.</p>
+            <p>We use point correspondences between the two images to set up a system of linear equations and solve for the homography matrix using Singular Value Decomposition (SVD).</p>
+            <pre>
+                <code>
+                def computeH(im1_pts, im2_pts):
+                    """
+                    Computes the homography matrix H that maps points in im1_pts to im2_pts.
+                    :param im1_pts: Corresponding points in the first image (Nx2 matrix).
+                    :param im2_pts: Corresponding points in the second image (Nx2 matrix).
+                    :return: The 3x3 homography matrix H.
+                    """
+                    n = im1_pts.shape[0]
+                    A = []
+
+                    for i in range(n):
+                        x1, y1 = im1_pts[i, :]
+                        x2, y2 = im2_pts[i, :]
+                        A.append([-x1, -y1, -1, 0, 0, 0, x2*x1, x2*y1, x2])
+                        A.append([0, 0, 0, -x1, -y1, -1, y2*x1, y2*y1, y2])
+
+                    A = np.array(A)
+                    U, S, Vh = np.linalg.svd(A)
+                    H = Vh[-1, :].reshape((3, 3))
+
+                    return H
+                </code>
+            </pre>
+        </section>
+
+        <!-- Part 3: Warp the Images -->
+        <section class="procedure">
+            <h2>Part 3: Warp the Images</h2>
+            <p>With the homography matrix computed, we can now warp the left image to the perspective of the right image. We use forward warping to map each pixel in the left image to the output canvas using the homography.</p>
+            <p>Below is the result of the left image warped into the right image's perspective:</p>
+            <div class="image-gallery">
+                <div class="image-item-full">
+                    <div class="image-title">Warped Left Image</div>
+                    <img src="media/warped_left.png" alt="Warped Left Image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 5: Blend the Images into a Mosaic -->
+        <section class="procedure">
+            <h2>Part 5: Blend the Images into a Mosaic</h2>
+            <p>After warping the left image, we blend it with the right image to create a seamless mosaic. We use weighted averaging to blend the overlapping regions of the images.</p>
+            <p>Below is the final blended mosaic:</p>
+            <div class="image-gallery">
+                <div class="image-item-full">
+                    <div class="image-title">Final Blended Mosaic</div>
+                    <img src="media/blended_mosaic.png" alt="Blended Mosaic">
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 4: Image Rectification -->
+        <section class="procedure">
+            <h2>Part 4: Image Rectification</h2>
+            <p>Image rectification is the process of transforming an image so that a certain planar surface appears front-facing and rectangular. We achieve this by computing a homography based on known correspondences.</p>
+            <p>Below is an example of image rectification:</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">Original Image</div>
+                    <img src="media/original_image.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Rectified Image</div>
+                    <img src="media/rectified_image.png" alt="Rectified Image">
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
