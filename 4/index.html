@@ -141,7 +141,10 @@
             <h2>Image Rectification</h2>
             <p>Image rectification is the process of transforming an image so that a certain planar surface appears front-facing and rectangular. We achieve this by computing a homography based on known correspondences.
             In this case, we take an image of a building from a perspective. Then I create correspondence points for the 4 corners of the right plane of this building. We will transform this into a front facing, rectangular surface
-            and visualize the final result of the image when this is done. In this case, I transformed this into size 100,200 as this seems to be the approximate ratio of that face in the original image.  </p>
+            and visualize the final result of the image when this is done. In this case, I transformed this into size 100,200 as this seems to be the approximate ratio of that face in the original image.
+            You might notice that the final result does not have a perfect rectangle. This is because it is very sensitive to the correspondence points not representing the perfect corners of the rectangle
+                in the original building. I was not able to get
+            perfect points because there is noise in selecting points on an image manually.</p>
             <p>Below is an example of image rectification:</p>
             <div class="image-gallery">
                 <div class="image-item">
