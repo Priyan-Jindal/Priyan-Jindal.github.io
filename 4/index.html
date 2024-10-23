@@ -75,7 +75,7 @@
 
         <!-- Part 1: Shoot the Pictures -->
         <section class="procedure">
-            <h2>Part 1: Shoot the Pictures</h2>
+            <h2>Shoot the Pictures</h2>
             <p>(Description of the process, leaving space for images)</p>
             <div class="image-gallery">
                 <div class="image-item">
@@ -91,7 +91,7 @@
 
         <!-- Part 2: Recover Homographies -->
         <section class="procedure">
-            <h2>Part 2: Recover Homographies</h2>
+            <h2>Recover Homographies</h2>
             <p>In this step, we compute the homography matrix that aligns one image with the other. The homography is a 3x3 matrix that maps points in one image to corresponding points in another using projective transformation.</p>
             <p>We use point correspondences between the two images to set up a system of linear equations and solve for the homography matrix using Singular Value Decomposition (SVD).</p>
             <div class="image-item">
@@ -106,7 +106,7 @@
 
         <!-- Part 3: Warp the Images -->
         <section class="procedure">
-            <h2>Part 3: Warp the Images</h2>
+            <h2>Warp the Images</h2>
             <p>With the homography matrix computed, we can now warp the left image to the perspective of the right image. We use forward warping to map each pixel in the left image to the output canvas using the homography.</p>
 
         </section>
@@ -132,7 +132,7 @@
 
         <!-- Part 4: Image Rectification -->
         <section class="procedure">
-            <h2>Part 4: Image Rectification</h2>
+            <h2>Image Rectification</h2>
             <p>Image rectification is the process of transforming an image so that a certain planar surface appears front-facing and rectangular. We achieve this by computing a homography based on known correspondences.
             In this case, we take an image of a building from a perspective. Then I create correspondence points for the 4 corners of the right plane of this building. We will transform this into a front facing, rectangular surface
             and visualize the final result of the image when this is done. In this case, I transformed this into size 100,200 as this seems to be the approximate ratio of that face in the original image.  </p>
