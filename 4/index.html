@@ -106,10 +106,16 @@
 
         <!-- Part 3: Warp the Images -->
         <section class="procedure">
-            <h2>Warp the Images</h2>
-            <p>With the homography matrix computed, we can now warp the left image to the perspective of the right image. We use forward warping to map each pixel in the left image to the output canvas using the homography.</p>
-
+            <h2>Image Warping Process</h2>
+            <p>The warping process aligns one image to the perspective of another using a <strong>homography matrix</strong>, which defines how points in one image map to corresponding points in another. The homography is a 3x3 matrix that accounts for transformations such as translation, rotation, scaling, and perspective changes.</p>
+            
+            <p>To apply the homography, each pixel in the source image is transformed to new coordinates in the target image. This is known as <strong>forward warping</strong>. In this project, the left image is warped to match the right image by calculating where each pixel from the left image should appear in the final mosaic.</p>
+        
+            <p>A <strong>translation matrix</strong> is also applied to ensure that all parts of the warped image fit within the output canvas, preventing any negative or out-of-bounds pixel coordinates. The warped image is then placed into this larger canvas, aligning it with the reference image.</p>
+        
+            <p>The result is a transformed version of the left image, reprojected onto the same plane as the right image, ready for blending into a mosaic.</p>
         </section>
+
 
         <!-- Part 5: Blend the Images into a Mosaic -->
         <section class="procedure">
