@@ -92,8 +92,25 @@
         <!-- Part 2: Recover Homographies -->
         <section class="procedure">
             <h2>Recover Homographies</h2>
-            <p>In this step, we compute the homography matrix that aligns one image with the other. The homography is a 3x3 matrix that maps points in one image to corresponding points in another using projective transformation.</p>
-            <p>We use point correspondences between the two images to set up a system of linear equations and solve for the homography matrix using Singular Value Decomposition (SVD).</p>
+            <section class="procedure">
+                <h2>Homography Process</h2>
+                <p>A <strong>homography</strong> is a transformation between two images that describes how points in one image correspond to points in another, based on a projective transformation. The homography matrix <em>H</em> is a 3x3 matrix that maps a point <em>p</em> in one image to its corresponding point <em>p'</em> in another image, using the equation:</p>
+                <pre>
+                    p' = H * p
+                </pre>
+            
+                <p>Here, <em>p</em> and <em>p'</em> are points in homogeneous coordinates, which means they are represented as 3D vectors <code>[x, y, 1]</code>. The homography matrix <em>H</em> has eight degrees of freedom and is typically expressed as:</p>
+                <pre>
+                    H = | h11  h12  h13 |
+                        | h21  h22  h23 |
+                        | h31  h32  h33 |
+                </pre>
+            
+                <p>To compute <em>H</em>, we need at least 4 pairs of corresponding points between two images. Each point correspondence gives two equations, and with four point pairs, we have enough equations to solve for the 8 unknowns (the ninth value is set to 1 for normalization). The system of equations is solved using methods like Singular Value Decomposition (SVD).</p>
+            
+                <p>Once the homography matrix is computed, we can apply it to map every pixel in one image to its corresponding location in the second image, enabling us to warp one image into the perspective of the other.</p>
+            </section>
+
             <div class="image-item">
                     <div class="image-title">Left Image Correspondence Points</div>
                     <img src="media/left_points.png" alt="Left Image">
