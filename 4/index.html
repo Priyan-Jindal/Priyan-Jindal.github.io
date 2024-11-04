@@ -181,8 +181,8 @@
             <p>Using the harris interest point detector, corners of interest are selected based on directional gradients and thresholded for the final
                 corner set.</p>
             <div class="image-gallery">
-                <div class="image-item">
-                    <div class="image-title">Original Image</div>
+                <div class="image-item-full">
+                    <div class="image-title">Harris Corners</div>
                     <img src="media/harris.png" alt="Original Image">
                 </div>
             </div>
@@ -196,8 +196,8 @@
                represents all other corners, and \( c_{\text{robustness}} \) is set to 0.9. Next, the corners with the greatest distance
                to another corner meeting this threshold are selected. I set the number of selected corners to 500.</p>
             <div class="image-gallery">
-                <div class="image-item">
-                    <div class="image-title">Original Image</div>
+                <div class="image-item-full">
+                    <div class="image-title">ANMS corners</div>
                     <img src="media/anms.png" alt="Original Image">
                 </div>
             </div>
@@ -207,9 +207,25 @@
             <h2>Feature Matching</h2>
             <p>To filter matching corners, a feature matching technique is applied. For each corner, a 40x40 patch is extracted from the image, centered on the corner point. This patch is resized to 8x8, normalized by subtracting the mean and dividing by the standard deviation to minimize intensity differences, and then flattened into a 1D feature vector. For each feature in image A, its error is calculated against all features in image B. Using Lowe’s ratio test, if the ratio of the two smallest errors is below a threshold of 0.5, the feature in image B with the smallest error is selected as the best match for the feature in image A.</p>
             <div class="image-gallery">
-                <div class="image-item">
-                    <div class="image-title">Original Image</div>
-                    <img src="media/anms.png" alt="Original Image">
+                <div class="image-item-full">
+                    <div class="image-title">Some Sample Feature Matches</div>
+                    <img src="media/plotted.png" alt="Original Image">
+                </div>
+            </div>
+        </section>
+
+        <section class="procedure">
+            <h2>RANSAC</h2>
+            <p>
+                Unfortunately, some matches are still not very accurate as correspondence points. The reason I say not very accurate is because they cause
+                large shifts in calculations of H, the homography matrix. RANSAC is an iterative process that tests homography matrices from subsets
+                of points of all the matches by warping 4 points using the homography matrix, and then labeling those points who show accurate results
+                as inliers. The threshold of how close warped points have to be to their computed match is a parameter, which I set to 5 pixels. 
+            </p>
+            <div class="image-gallery">
+                <div class="image-item-full">
+                    <div class="image-title">Some RANSAC inliers</div>
+                    <img src="media/inliers.png" alt="Original Image">
                 </div>
             </div>
         </section>
