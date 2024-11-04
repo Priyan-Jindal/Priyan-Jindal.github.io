@@ -227,7 +227,44 @@
                     <div class="image-title">Some RANSAC inliers</div>
                     <img src="media/inliers.png" alt="Original Image">
                 </div>
+                <div class="image-item">
+                    <div class="image-title">Manual bedroom blend</div>
+                    <img src="media/final.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Auto-stitching bedroom blend</div>
+                    <img src="media/bedroom_blend.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Manual balcony view blend</div>
+                    <img src="media/manual_balcony.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Auto-stitching balcony view blend</div>
+                    <img src="media/balcony_blend.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Manual corner blend</div>
+                    <img src="media/manual_corner.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Auto-stitching corner blend</div>
+                    <img src="media/corner_blend.png" alt="Original Image">
+                </div>
             </div>
+            <p>
+                It seems that there are mixed results. For the balcony, you can see less blur in the orange area for the auto stitched mosaic,
+                indicating better results. For the corner image, you can see a better computed homography as the images are more properly aligned.
+                However, for the bedroom, it seems that the manual is actually better.
+                The reason for this and also what was really my cool takeaway from this project is that it makes perfect sense that doing this process
+                manually can actually lead to better results. Both of these methods are simply forms of picking corresponding points - the matching
+                algorithms are the same. Since I spent a lot of time picking many correspondence points for the bedroom image manually, it actually 
+                turns out that this has a better result. 
+                However, it is without a doubt that the RANSAC auto stitching method using harris corners is superior when generalized to more complex
+                situations. The efficiency to compute so many correspondence points is unmatched. Although using gradients may be less effective on
+                an indivdual point scale, generalizing to thousands or millions of points requires something like harris plus RANSAC, since it is more efficient,
+                and likely very accurate because the sample size is now huge and noise will often balance out. 
+            </p>
         </section>
     </main>
 </body>
