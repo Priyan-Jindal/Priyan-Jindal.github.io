@@ -395,7 +395,7 @@ The denoiser's performance is also tested on **out-of-distribution noise levels*
         </section>
 
         <section class="procedure">
-           <h2>Training a Single Step Denoising UNet</h2>
+           <h2>Time Conditioned UNet</h2>
            <p>
              I implemented a **time-conditioned UNet** to train a **Diffusion Probabilistic Model (DDPM)** that can denoise noisy MNIST images and reconstruct clean ones. To include time conditioning, I added **FCBlocks**, which embed the scalar timestep \( t \) into a higher-dimensional vector using linear layers and GELU activations. My UNet architecture has a downsampling path, a bottleneck where I injected time-conditioning, and an upsampling path where I added skip connections and additional time-conditioning layers. The final layer outputs a single-channel \( 28 \times 28 \) image.
 
@@ -404,29 +404,41 @@ For training, I used a forward diffusion process to add Gaussian noise to clean 
 I also implemented the reverse diffusion algorithm to generate new samples, starting from random noise and iteratively reconstructing clean images. After 5 and 20 epochs, I visualized the generated samples, which closely resembled MNIST digits. This project demonstrated how diffusion models can effectively denoise images and how time conditioning enhances the model's ability to handle noise dynamically across timesteps.
            </p>     
             <div class="image-gallery">  
-                <div class="image-item-full">
-                      <div class="image-title">Noising Process</div>
-                      <img src="media/1_noising.png" alt="Left Image">
-                </div>
                 <div class="image-item">
                       <div class="image-title">Training loss curve plot</div>
-                      <img src="media/training_loss_1.png" alt="Left Image">
+                      <img src="media/training_loss_2.png" alt="Left Image">
                 </div>
                 <div class="image-item">
-                      <div class="image-title">Sample results on test set after 1 epoch</div>
+                      <div class="image-title">Sample results on test set after 5 epochS</div>
                       <img src="media/1epoch.png" alt="Left Image">
                 </div>
                 <div class="image-item">
-                      <div class="image-title">Sample results on test set after 5 epochs</div>
+                      <div class="image-title">Sample results on test set after 20 epochs</div>
                       <img src="media/5epoch.png" alt="Left Image">
                 </div>
+            </div>
+        </section>
+        <section class="procedure">
+           <h2>Class Conditioned UNet</h2>
+           <p>
+               I extended my UNet to include **class-conditioning** to improve control over image generation, enabling it to generate specific digits (0-9) based on a one-hot encoded class vector. I added two new **FCBlocks** to handle the class-conditioning vector alongside the time-conditioning vector, allowing the model to incorporate both class and time information. To maintain flexibility, I implemented **dropout**, where the class-conditioning vector is randomly set to zero 10% of the time, enabling the model to function without class-conditioning if needed.
+
+During training, I modulated key parts of the UNet, such as the bottleneck (`unflatten`) and upsampling path (`up1`), by combining class-conditioning (\( c \)) and time-conditioning (\( t \)) vectors. For sampling, I used **classifier-free guidance**, where both conditional and unconditional outputs were combined with a scaling factor to improve results.
+
+I trained the class-conditioned UNet on the MNIST dataset for 20 epochs, following the same procedure as the time-conditioned UNet. The training loss curve demonstrated consistent improvement, and I visualized generated samples for each digit after every 5 epochs. The results showed better control over digit generation, with clear differentiation between the classes. This approach provided enhanced flexibility for targeted image generation while maintaining the robustness of the diffusion model.
+           </p>     
+            <div class="image-gallery">  
                 <div class="image-item">
-                      <div class="image-title">Out of distribution noise levels</div>
-                      <img src="media/denoised_1.1.png" alt="Left Image">
+                      <div class="image-title">Training loss curve plot</div>
+                      <img src="media/training_loss_2.png" alt="Left Image">
                 </div>
                 <div class="image-item">
-                      <div class="image-title">Out of distribution noise levels</div>
-                      <img src="media/denoised_1.2.png" alt="Left Image">
+                      <div class="image-title">Sample results on test set after 5 epochS</div>
+                      <img src="media/1epoch.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                      <div class="image-title">Sample results on test set after 20 epochs</div>
+                      <img src="media/5epoch.png" alt="Left Image">
                 </div>
             </div>
         </section>
