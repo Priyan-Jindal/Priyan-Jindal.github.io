@@ -143,29 +143,8 @@
         <section class="procedure">
             <h2>Image Rectification</h2>
             <p>
-I implemented iterative denoising for a diffusion model using strided timesteps to skip redundant steps, improving efficiency while preserving image quality. Starting with a noisy image at a high timestep, I used a U-Net to predict the noise and estimate the clean image, iteratively refining it across progressively less noisy timesteps. The denoising process interpolates between the noisy input and the predicted clean signal using diffusion-specific parameters like 
-𝛼
-𝑡
-α 
-t
-​
- , 
-𝛽
-𝑡
-β 
-t
-​
- , and 
-𝛼
-ˉ
-𝑡
-α
-ˉ
-  
-t
-​
- . By skipping steps with strided timesteps, the model efficiently reconstructs high-quality images without the need for full-timestep computations. I visualized the gradual denoising process and compared the results to single-step denoising and Gaussian blurring, demonstrating the superiority of the iterative approach. This project highlights the power of diffusion models in balancing computational efficiency and high-quality image restoration.</p>
-
+                I implemented iterative denoising for a diffusion model using **strided timesteps** to skip redundant steps, improving efficiency while preserving image quality. Starting with a noisy image at a high timestep, I used a U-Net to predict the noise and estimate the clean image, iteratively refining it across progressively less noisy timesteps. The denoising process interpolates between the noisy input and the predicted clean signal using diffusion-specific parameters like \( \alpha_t \), \( \beta_t \), and \( \bar{\alpha}_t \). By skipping steps with strided timesteps, the model efficiently reconstructs high-quality images without the need for full-timestep computations. I visualized the gradual denoising process and compared the results to single-step denoising and Gaussian blurring, demonstrating the superiority of the iterative approach. This project highlights the power of diffusion models in balancing computational efficiency and high-quality image restoration.
+            </p>
               <div class="image-item-full">
                   <div class="image-title">Results</div>
                   <img src="media/1_4.png" alt="Original Image">
@@ -173,41 +152,50 @@ t
 
         </section>
 
-
+        <!-- Part 5: Diffusion Model Sampling -->
         <section class="procedure">
             <h2>Feature Matching for Autostitching</h2>
-            <p>Using the harris interest point detector, corners of interest are selected based on directional gradients and thresholded for the final
-                corner set.</p>
-            <div class="image-gallery">
-                <div class="image-item-full">
-                    <div class="image-title">Harris Corners</div>
-                    <img src="media/harris.png" alt="Original Image">
-                </div>
+            <p>If we repeat part 1.4, starting from random noise and timestep = 0, we can effectively generate images from scratch
+            or "sample" this diffusion model. Here are 5 results for the text prompt "a high quality photo".</p>
+            <div class="image-item-full">
+                <div class="image-title">Diffusion Model Samples</div>
+                <img src="media/1_5.png" alt="Original Image">
             </div>
+
         </section>
 
+        <!-- Part 6: CFG (Classifier Free Guidance) -->
         <section class="procedure">
             <h2>Adaptive Non-Maximal Suppression</h2>
-            <p>Because there are too many Harris corners to efficiently compute, we use adaptive non maximal suppression to eliminate some corners.
-           This approach involves iterating over each corner and identifying the nearest corner that has a significantly larger value, defined
-                by the condition \( x_i < c_{\text{robustness}} \times x_j \), where \( x_i \) is the current corner, \( x_j \)
-               represents all other corners, and \( c_{\text{robustness}} \) is set to 0.9. Next, the corners with the greatest distance
-               to another corner meeting this threshold are selected. I set the number of selected corners to 500.</p>
-            <div class="image-gallery">
-                <div class="image-item-full">
-                    <div class="image-title">ANMS corners</div>
-                    <img src="media/anms.png" alt="Original Image">
-                </div>
+            <p>
+                In this part, I implemented **Classifier-Free Guidance (CFG)** to improve the quality of generated images by combining conditional and unconditional noise estimates. The denoising process involves calculating a weighted combination of these estimates, controlled by a guidance scale \( \gamma \), where higher values amplify the conditional guidance for better image fidelity. I created a function, `iterative_denoise_cfg`, that iteratively refines noisy inputs using both a meaningful text prompt and an empty ("null") prompt to guide the generation process. Using this function, I generated five images with a CFG scale of \( \gamma = 7 \), which balances conditional alignment and diversity. This approach produces sharper, more detailed images compared to standard diffusion methods, demonstrating the effectiveness of classifier-free guidance.
+            </p>
+
+            <div class="image-item">
+                <div class="image-title">CFG generated images</div>
+                <img src="media/1_6.png" alt="Original Image">
             </div>
+
         </section>
 
+        <!-- Part 7: Image-to-image Translation -->
         <section class="procedure">
-            <h2>Feature Matching</h2>
-            <p>To filter matching corners, a feature matching technique is applied. For each corner, a 40x40 patch is extracted from the image, centered on the corner point. This patch is resized to 8x8, normalized by subtracting the mean and dividing by the standard deviation to minimize intensity differences, and then flattened into a 1D feature vector. For each feature in image A, its error is calculated against all features in image B. Using Lowe’s ratio test, if the ratio of the two smallest errors is below a threshold of 0.5, the feature in image B with the smallest error is selected as the best match for the feature in image A.</p>
+            <h2>Image to Image translation</h2>
+            <p>
+                In this part, I used **SDEdit** to edit images by adding varying levels of noise and then iteratively denoising them using **Classifier-Free Guidance (CFG)**. For each noise level (\(1, 3, 5, 7, 10, 20\)), I added noise to the original image to push it away from the image manifold and used a diffusion model with the prompt "a high quality photo" to guide it back. The denoising process forced the noisy images to align with the natural image manifold, gradually restoring details while preserving edits induced by the noise. I repeated this procedure for three test images, producing a range of outputs for each noise level, showing progressively refined versions as the noise level decreased. This approach demonstrates the model’s ability to creatively edit and restore images while balancing between the original content and new generative adjustments.
+            </p>            
             <div class="image-gallery">
-                <div class="image-item-full">
-                    <div class="image-title"> 1/3 of the Feature Matches</div>
-                    <img src="media/matches_balcony.png" alt="Original Image">
+                <div class="image-item">
+                    <div class="image-title">Campanile</div>
+                    <img src="media/1_7_camp.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Steph</div>
+                    <img src="media/1_7_curry.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Lambo</div>
+                    <img src="media/1_7_lambo.png" alt="Original Image">
                 </div>
             </div>
         </section>
