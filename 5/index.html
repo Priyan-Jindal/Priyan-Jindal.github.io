@@ -200,58 +200,150 @@
             </div>
         </section>
 
+        <!-- Part 7.1: Image-to-image Translation -->
         <section class="procedure">
-            <h2>RANSAC</h2>
+            <h2>Editing Hand-Drawn Images and Web Images</h2>
             <p>
-                Unfortunately, some matches are still not very accurate as correspondence points. The reason I say not very accurate is because they cause
-                large shifts in calculations of H, the homography matrix. RANSAC is an iterative process that tests homography matrices from subsets
-                of points of all the matches by warping 4 points using the homography matrix, and then labeling those points who show accurate results
-                as inliers. The threshold of how close warped points have to be to their computed match is a parameter, which I set to 5 pixels. 
-            </p>
+I experimented with projecting non-realistic images onto the natural image manifold using iterative denoising with Classifier-Free Guidance. I edited a web-sourced image of a car and two hand-drawn images—a sports car and a pair of sunglasses—at various noise levels, transforming them into photorealistic versions.            </p>            
             <div class="image-gallery">
-                <div class="image-item-full">
-                    <div class="image-title">Some RANSAC inliers</div>
-                    <img src="media/inliers.png" alt="Original Image">
+                <div class="image-item">
+                    <div class="image-title">Web Image - Car</div>
+                    <img src="media/1_7_1_car.png" alt="Original Image">
                 </div>
                 <div class="image-item">
-                    <div class="image-title">Manual bedroom blend</div>
-                    <img src="media/final.png" alt="Original Image">
+                    <div class="image-title">Hand Drawn - Sports Car</div>
+                    <img src="media/1_7_1_spcar.png" alt="Original Image">
                 </div>
                 <div class="image-item">
-                    <div class="image-title">Auto-stitching bedroom blend</div>
-                    <img src="media/bedroom_blend.png" alt="Original Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Manual balcony view blend</div>
-                    <img src="media/manual_balcony.png" alt="Original Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Auto-stitching balcony view blend</div>
-                    <img src="media/balcony_blend.png" alt="Original Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Manual corner blend</div>
-                    <img src="media/manual_corner.png" alt="Original Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Auto-stitching corner blend</div>
-                    <img src="media/corner_blend.png" alt="Original Image">
+                    <div class="image-title">Hand Drawn - Sunglasses</div>
+                    <img src="media/1_7_1_glasses.png" alt="Original Image">
                 </div>
             </div>
-            <p>
-                It seems that there are mixed results. For the balcony, you can see less blur in the orange area for the auto stitched mosaic,
-                indicating better results. For the corner image, you can see a better computed homography as the images are more properly aligned.
-                However, for the bedroom, it seems that the manual is actually better.
-                The reason for this and also what was really my cool takeaway from this project is that it makes perfect sense that doing this process
-                manually can actually lead to better results. Both of these methods are simply forms of picking corresponding points - the matching
-                algorithms are the same. Since I spent a lot of time picking many correspondence points for the bedroom image manually, it actually 
-                turns out that this has a better result. 
-                However, it is without a doubt that the RANSAC auto stitching method using harris corners is superior when generalized to more complex
-                situations. The efficiency to compute so many correspondence points is unmatched. Although using gradients may be less effective on
-                an indivdual point scale, generalizing to thousands or millions of points requires something like harris plus RANSAC, since it is more efficient,
-                and likely very accurate because the sample size is now huge and noise will often balance out. 
-            </p>
         </section>
+
+        <!-- Part 7.2: Image-to-image Translation -->
+        <section class="procedure">
+            <h2>Inpainting</h2>
+            <p>
+I implemented an inpainting function based on the RePaint paper to reconstruct missing regions in images using a binary mask. By iteratively denoising the input image, I replaced the masked regions with new content generated by the diffusion model while keeping the unmasked areas unchanged. I applied this technique to inpaint the top of the Campanile and experimented with two additional custom images and masks for creative edits.            
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">Campanile Inpainted</div>
+                    <img src="media/1_7_2.png" alt="Original Image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 7.3: Image-to-image Translation -->
+        <section class="procedure">
+            <h2>Text-Conditional Image to Image Translation</h2>
+            <p>
+In this task, I extended the SDEdit approach to include text prompts, enabling guided transformations of images based on specific descriptions. By varying noise levels (\([1, 3, 5, 7, 10, 20]\)), I projected test images onto the natural image manifold while aligning them with a provided text prompt, such as "a rocket ship." I applied this method to the test image and two additional custom images, creating results that blend the original structure with the semantic guidance of the text prompt.            <div class="image-gallery">
+            <div class="image-gallery">            
+                <div class="image-item">
+                    <div class="image-title">Campanile with Rocket prompt</div>
+                    <img src="media/1_7_3_camp.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Steph Curry with Old Man Prompt</div>
+                    <img src="media/1_7_3_curry.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Lambo with Man Wearing a Hat prompt</div>
+                    <img src="media/1_7_3_lambo.png" alt="Original Image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 8: Image-to-image Translation -->
+        <section class="procedure">
+            <h2>Visual Anagrams</h2>
+            <p>
+This code implements a **visual anagram creation** process where an image changes its semantic content depending on its orientation, based on prompts like "an oil painting of an old man" and "an oil painting of people around a campfire." The key idea is to iteratively denoise an image with **Classifier-Free Guidance (CFG)** for two different text prompts: one for the original image orientation and one for its flipped version. The denoising is guided by conditional and unconditional noise estimates, combined with a scaling factor to control the strength of the guidance.
+
+For each timestep \(t\), the code computes the conditional noise estimates for both prompts using the U-Net. It also calculates the unconditional noise estimates by passing the same images through the model with an empty prompt. These estimates are combined using CFG to calculate the guided noise estimates, where:
+\[
+\text{noise\_est\_cfg} = \text{uncond\_noise\_est} + \text{scale} \cdot (\text{cond\_noise\_est} - \text{uncond\_noise\_est}).
+\]
+
+For the flipped version of the image, the process is repeated after flipping the image vertically, and the resulting noise estimate is flipped back to align with the original image orientation. The final noise estimate is then averaged across the two prompts (original and flipped) to harmonize the two semantic interpretations. 
+
+The resulting noise estimate is used to compute the clean image estimate for the current timestep using the equation:
+\[
+\text{clean\_est} = \frac{\text{image} - \text{noise\_est\_final} \cdot \sqrt{1 - \alpha_t}}{\sqrt{\alpha_t}}.
+\]
+
+The predicted image for the previous timestep is computed by interpolating between the clean image estimate and the current noisy image, with variance correction added using the predicted variance from the U-Net. This iterative denoising process ensures that the final image contains visual elements corresponding to both prompts, depending on the orientation of the image. The code successfully demonstrates how to generate creative visual anagrams by leveraging the powerful capabilities of diffusion models.            
+            <div class="image-gallery">            
+                <div class="image-item">
+                    <div class="image-title">An oil painting of an old man</div>
+                    <img src="media/1_8_oldman.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">An oil painting of people around a campfire</div>
+                    <img src="media/1_7_3_curry.png" alt="Original Image">
+                </div>
+            </div>
+            <div class="image-gallery">            
+                <div class="image-item">
+                    <div class="image-title">An oil painting of a snowy mountain village</div>
+                    <img src="media/1_8_snow_amalfi.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">A photo of the amalfi coast</div>
+                    <img src="media/1_7_3_curry.png" alt="Original Image">
+                </div>
+            </div>
+            <div class="image-gallery">            
+                <div class="image-item">
+                    <div class="image-title">A lithograph of waterfalls</div>
+                    <img src="media/1_8_litho.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">A lithograph of a skull</div>
+                    <img src="media/1_7_3_curry.png" alt="Original Image">
+                </div>
+            </div>
+        </section>
+<!-- Part 9: Image-to-image Translation -->
+        <section class="procedure">
+            <h2>Visual Anagrams</h2>
+            <p>
+                This code implements **Factorized Diffusion** to create hybrid images that combine low and high-frequency components from two separate noise estimates generated using different prompts. Specifically, it creates an image that appears as a "lithograph of a skull" when viewed from a distance but resembles "a lithograph of waterfalls" when viewed up close. The process involves iteratively denoising the image while separating the frequency components of two noise estimates using Gaussian blurring.
+
+For each timestep \(t\), the code calculates the **conditional noise estimates** (\(\epsilon_{1}, \epsilon_{2}\)) for the two prompts and their respective **unconditional noise estimates** using the U-Net. These estimates are combined using **Classifier-Free Guidance (CFG)**, where the final guided noise for each prompt is:
+\[
+\text{noise\_est} = \text{uncond\_noise} + \text{scale} \cdot (\text{cond\_noise} - \text{uncond\_noise}).
+\]
+The low-frequency component is extracted by applying a Gaussian blur (\(kernel\_size=33, sigma=2\)) to the first noise estimate. The high-frequency component is derived by subtracting the blurred version of the second noise estimate from itself. These components are combined to form the final noise estimate:
+\[
+\text{noise\_est\_final} = \text{low\_pass} + \text{high\_pass}.
+\]
+
+The denoised image for the current timestep is computed using:
+\[
+\text{clean\_est} = \frac{\text{image} - \text{noise\_est\_final} \cdot \sqrt{1 - \alpha_t}}{\sqrt{\alpha_t}},
+\]
+where \(\alpha_t\) and \(\beta_t = 1 - \alpha_t\) are timestep-dependent noise parameters. The predicted image for the previous timestep is calculated by interpolating between the clean estimate and the noisy image, while incorporating the predicted variance to stabilize the results.
+
+This process is repeated iteratively across the timesteps, gradually refining the image to combine the high and low frequencies of the prompts. The result is a visually compelling hybrid image that seamlessly integrates the features of the two concepts, leveraging the capabilities of diffusion models for creative compositional outputs.
+            
+            </p>
+            <div class="image-gallery">            
+                <div class="image-item">
+                    <div class="image-title">Hybrid image of a skull and a waterfall</div>
+                    <img src="media/1_9_skull.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">Hybrid image of a barista and a dog</div>
+                    <img src="media/1_9_dog.png" alt="Original Image">
+                </div>
+                <div class="image-item">
+                    <div class="image-title">A photo of a rocket and a pencil</div>
+                    <img src="media/1_9_rocket.png" alt="Original Image">
+                </div>
+            </div>
+                
     </main>
 </body>
 </html>
