@@ -32,7 +32,7 @@
             gap: 20px;
         }
         .image-item {
-            width: calc(50% - 20px); /* 3 images per row */
+            width: calc(33% - 20px); /* 3 images per row */
             margin-bottom: 20px;
         }
         .image-item img {
@@ -132,7 +132,7 @@
               not iterative, and we are simply passing in the timestep of noise into the model so it can remove all the noise
               conditioned on that timestep at once. 
             </p>
-            <div class="image-item-full">
+            <div class="image-item">
                 <div class="Final Mosaic">One Step Denoised Campanile at Different Timestamps</div>
                 <img src="media/1_3.png" alt="final">
             </div>
@@ -157,7 +157,7 @@
             <h2>Diffusion Model Sampling</h2>
             <p>If we repeat part 1.4, starting from random noise and timestep = 0, we can effectively generate images from scratch
             or "sample" this diffusion model. Here are 5 results for the text prompt "a high quality photo".</p>
-            <div class="image-item-full">
+            <div class="image-item">
                 <div class="image-title">Diffusion Model Samples</div>
                 <img src="media/1_5.png" alt="Original Image">
             </div>
