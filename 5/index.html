@@ -345,6 +345,55 @@ This process is repeated iteratively across the timesteps, gradually refining th
             </div>
                 
     </main>
+    <header>
+        <h1>Project 5B: Diffusion Models from Scratch</h1>
+    </header>
+    <main>
+        <section class="procedure">
+           <h2>Training a Single Step Denoising UNet</h2>
+           <p>
+             This project involves training a single-step denoising UNet on the MNIST dataset to map noisy images back to clean ones using an \( L_2 \) loss function. The **UNet architecture** is built using various tensor operations such as **nn.Conv2d** (for convolutions), **nn.ConvTranspose2d** (for upsampling), **nn.BatchNorm2d** (for normalization), **nn.GELU** (for activation), and **nn.AvgPool2d** (for pooling). Key building blocks include:
+
+1. **Conv**: Performs convolution to adjust channel dimensions while keeping height and width constant.
+2. **DownConv**: Reduces the spatial resolution by a factor of 2 using strided convolutions.
+3. **UpConv**: Upsamples the spatial resolution by a factor of 2 using transposed convolutions.
+4. **Flatten** and **Unflatten**: Flatten 7x7 tensors into 1x1 and reverse the process, respectively.
+5. **ConvBlock**, **DownBlock**, and **UpBlock**: Deeper versions of Conv, DownConv, and UpConv that include additional layers to increase learnable parameters.
+
+The UNet's hidden dimension \( D = 128 \) determines the number of channels in intermediate layers, which control the model's capacity. Skip connections are used to concatenate features from earlier downsampling layers to later upsampling layers, preserving fine-grained spatial details during reconstruction.
+
+To train the model, clean MNIST digits are noised using a Gaussian process with a controllable noise parameter \( \sigma \). Each batch is dynamically noised during training to improve generalization. The training is performed over 5 epochs with a batch size of 256 using the **Adam optimizer** and a learning rate of \( 1 \times 10^{-4} \). Loss values are recorded throughout training, and sample denoising results are visualized after the 1st and 5th epochs.
+
+The denoiser's performance is also tested on **out-of-distribution noise levels**, where \( \sigma \) is varied beyond the training values, to evaluate its generalization. Results are visualized as digits with varying noise levels and their corresponding denoised outputs. To prevent data loss, checkpoints are saved to Google Drive after each epoch, storing the model and optimizer states for resumption. The project demonstrates how diffusion models can reconstruct clean images and explores their robustness to unseen noise distributions.
+           </p>     
+            <div class="image-gallery">  
+                <div class="image-item-full">
+                      <div class="image-title">Noising Process</div>
+                      <img src="media/1_noising.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                      <div class="image-title">Training loss curve plot</div>
+                      <img src="media/training_loss_1.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                      <div class="image-title">Sample results on test set after 1 epoch</div>
+                      <img src="media/1epoch.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                      <div class="image-title">Sample results on test set after 5 epochs</div>
+                      <img src="media/5epoch.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                      <div class="image-title">Out of distribution noise levels</div>
+                      <img src="media/denoised_1.1.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                      <div class="image-title">Out of distribution noise levels</div>
+                      <img src="media/denoised_1.2.png" alt="Left Image">
+                </div>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
 
