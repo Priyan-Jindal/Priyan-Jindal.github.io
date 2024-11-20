@@ -393,6 +393,43 @@ The denoiser's performance is also tested on **out-of-distribution noise levels*
                 </div>
             </div>
         </section>
+
+        <section class="procedure">
+           <h2>Training a Single Step Denoising UNet</h2>
+           <p>
+             I implemented a **time-conditioned UNet** to train a **Diffusion Probabilistic Model (DDPM)** that can denoise noisy MNIST images and reconstruct clean ones. To include time conditioning, I added **FCBlocks**, which embed the scalar timestep \( t \) into a higher-dimensional vector using linear layers and GELU activations. My UNet architecture has a downsampling path, a bottleneck where I injected time-conditioning, and an upsampling path where I added skip connections and additional time-conditioning layers. The final layer outputs a single-channel \( 28 \times 28 \) image.
+
+For training, I used a forward diffusion process to add Gaussian noise to clean images using a noise schedule (\( \beta \)) and trained the UNet to predict the noise, optimizing with Mean Squared Error (MSE) loss. I trained the model on the MNIST dataset for 20 epochs with a batch size of 128 using the Adam optimizer and an exponentially decayed learning rate. To ensure stability, I saved model checkpoints and visualized the loss curve, which showed consistent improvement.
+
+I also implemented the reverse diffusion algorithm to generate new samples, starting from random noise and iteratively reconstructing clean images. After 5 and 20 epochs, I visualized the generated samples, which closely resembled MNIST digits. This project demonstrated how diffusion models can effectively denoise images and how time conditioning enhances the model's ability to handle noise dynamically across timesteps.
+           </p>     
+            <div class="image-gallery">  
+                <div class="image-item-full">
+                      <div class="image-title">Noising Process</div>
+                      <img src="media/1_noising.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                      <div class="image-title">Training loss curve plot</div>
+                      <img src="media/training_loss_1.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                      <div class="image-title">Sample results on test set after 1 epoch</div>
+                      <img src="media/1epoch.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                      <div class="image-title">Sample results on test set after 5 epochs</div>
+                      <img src="media/5epoch.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                      <div class="image-title">Out of distribution noise levels</div>
+                      <img src="media/denoised_1.1.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                      <div class="image-title">Out of distribution noise levels</div>
+                      <img src="media/denoised_1.2.png" alt="Left Image">
+                </div>
+            </div>
+        </section>
     </main>
 </body>
 </html>
