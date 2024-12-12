@@ -111,152 +111,35 @@
                 
         </section>
 
-
-
-        <!-- Part 3: Warp the Images -->
         <section class="procedure">
-            <h2>Image Warping Process</h2>
-            <p>The warping process aligns one image to the perspective of another using a <strong>homography matrix</strong>, which defines how points in one image map to corresponding points in another. The homography is a 3x3 matrix that accounts for transformations such as translation, rotation, scaling, and perspective changes.</p>
-            
-            <p>To apply the homography, each pixel in the source image is transformed to new coordinates in the target image. This is known as <strong>forward warping</strong>. In this project, the left image is warped to match the right image by calculating where each pixel from the left image should appear in the final mosaic.</p>
-        
-            <p>A <strong>translation matrix</strong> is also applied to ensure that all parts of the warped image fit within the output canvas, preventing any negative or out-of-bounds pixel coordinates. The warped image is then placed into this larger canvas, aligning it with the reference image.</p>
-        
-            <p>The result is a transformed version of the left image, reprojected onto the same plane as the right image, ready for blending into a mosaic.</p>
+            <h2>Summary</h2>
+            <p>In this project, I learned that light field photography allows me to computationally manipulate images captured from multiple perspectives to simulate advanced camera techniques like depth refocusing and aperture adjustment without physically changing lens properties. By understanding how light rays from different scene depths shift across a grid of images, I discovered that simple mathematical operations like shifting and averaging can dramatically transform image characteristics, effectively reconstructing focus and depth information. I learned that the parallax effect—where nearby objects move more significantly across images compared to distant objects—can be leveraged to create computational photography effects that mimic complex optical systems. The project showed me that a grid of images captures not just a single moment, but a rich, multidimensional representation of light rays passing through different points in space, allowing for post-capture manipulation of visual properties. Most importantly, I gained insight into how computational techniques can deconstruct and reconstruct visual information by treating images as data to be mathematically transformed, revealing the underlying computational principles that make advanced imaging techniques possible.</p>
         </section>
 
 
-        <!-- Part 5: Blend the Images into a Mosaic -->
+
         <section class="procedure">
-            <h2>Blending and Mosaicing Process</h2>
-            <p>In this project, images are blended into a mosaic using <strong>weighted averaging</strong> to ensure smooth transitions in overlapping regions. First, the left image is warped into the perspective of the right image using a homography matrix. To blend them, we create <strong>alpha masks</strong> for both images, indicating valid pixels. These masks are then used to compute <strong>blend masks</strong> that determine the contribution of each image in the overlapping areas.</p>
-        
-            <p>The <strong>weighted averaging</strong> formula for each image is:</p>
-            <pre>
-                blend_mask1 = mask1 / (mask1 + mask2 + ϵ), 
-                blend_mask2 = mask2 / (mask1 + mask2 + ϵ)
-            </pre>
-        
-            <p>This ensures that pixels are mixed smoothly based on their mask values. In the final step, the pixel values from both images are combined using these blend masks, resulting in a seamless mosaic where edges between the images are blurred and integrated naturally. This avoids harsh transitions and creates a coherent panoramic view.</p>
+            <h2>Bells and Whistles: Using Real Data</h2>
+            <p>In this part, I took my own pictures to simulate a light field camera. I drew a 5x5 grid on my desk, 
+            drawing spaces 2.5 inches apart. My results for depth refocusing and aperture adjustment were quite blurry. 
+            I imagine this is due to the lack of precision in exact grid positions and angles for the effects to be successful. 
+            I also only had a 5x5 grid, which may not be large enough.</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <img src="media/01.png" alt="Left Image">
+                </div>
+                <div class="image-item">
+                    <img src="media/02.png" alt="Right Image">
+                </div>
+                <div class="image-item">
+                    <img src="media/03.png" alt="Right Image">
+                </div>
+            </div>
+            <p>Depth Refocusing</p>
             <div class="image-item-full">
-                <div class="Final Mosaic">Right Image</div>
-                <img src="media/final.png" alt="final">
+                <img src="media/apt_chess.gif" alt="Depth Refocusing" style="cursor: pointer;" onclick="this.src = this.src">
             </div>
-        </section>
-
-
-        <!-- Part 4: Image Rectification -->
-        <section class="procedure">
-            <h2>Image Rectification</h2>
-            <p>Image rectification is the process of transforming an image so that a certain planar surface appears front-facing and rectangular. We achieve this by computing a homography based on known correspondences.
-            In this case, we take an image of a building from a perspective. Then I create correspondence points for the 4 corners of the right plane of this building. We will transform this into a front facing, rectangular surface
-            and visualize the final result of the image when this is done. In this case, I transformed this into size 100,200 as this seems to be the approximate ratio of that face in the original image.
-            You might notice that the final result does not have a perfect rectangle. This is because it is very sensitive to the correspondence points not representing the perfect corners of the rectangle
-                in the original building. I was not able to get
-            perfect points because there is noise in selecting points on an image manually.</p>
-            <p>Below is an example of image rectification:</p>
-            <div class="image-gallery">
-                <div class="image-item">
-                    <div class="image-title">Original Image</div>
-                    <img src="media/rectify.png" alt="Original Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Rectified Image</div>
-                    <img src="media/Warped_building.png" alt="Rectified Image">
-                </div>
-            </div>
-        </section>
-
-
-        <section class="procedure">
-            <h2>Feature Matching for Autostitching</h2>
-            <p>Using the harris interest point detector, corners of interest are selected based on directional gradients and thresholded for the final
-                corner set.</p>
-            <div class="image-gallery">
-                <div class="image-item-full">
-                    <div class="image-title">Harris Corners</div>
-                    <img src="media/harris.png" alt="Original Image">
-                </div>
-            </div>
-        </section>
-
-        <section class="procedure">
-            <h2>Adaptive Non-Maximal Suppression</h2>
-            <p>Because there are too many Harris corners to efficiently compute, we use adaptive non maximal suppression to eliminate some corners.
-           This approach involves iterating over each corner and identifying the nearest corner that has a significantly larger value, defined
-                by the condition \( x_i < c_{\text{robustness}} \times x_j \), where \( x_i \) is the current corner, \( x_j \)
-               represents all other corners, and \( c_{\text{robustness}} \) is set to 0.9. Next, the corners with the greatest distance
-               to another corner meeting this threshold are selected. I set the number of selected corners to 500.</p>
-            <div class="image-gallery">
-                <div class="image-item-full">
-                    <div class="image-title">ANMS corners</div>
-                    <img src="media/anms.png" alt="Original Image">
-                </div>
-            </div>
-        </section>
-
-        <section class="procedure">
-            <h2>Feature Matching</h2>
-            <p>To filter matching corners, a feature matching technique is applied. For each corner, a 40x40 patch is extracted from the image, centered on the corner point. This patch is resized to 8x8, normalized by subtracting the mean and dividing by the standard deviation to minimize intensity differences, and then flattened into a 1D feature vector. For each feature in image A, its error is calculated against all features in image B. Using Lowe’s ratio test, if the ratio of the two smallest errors is below a threshold of 0.5, the feature in image B with the smallest error is selected as the best match for the feature in image A.</p>
-            <div class="image-gallery">
-                <div class="image-item-full">
-                    <div class="image-title"> 1/3 of the Feature Matches</div>
-                    <img src="media/matches_balcony.png" alt="Original Image">
-                </div>
-            </div>
-        </section>
-
-        <section class="procedure">
-            <h2>RANSAC</h2>
-            <p>
-                Unfortunately, some matches are still not very accurate as correspondence points. The reason I say not very accurate is because they cause
-                large shifts in calculations of H, the homography matrix. RANSAC is an iterative process that tests homography matrices from subsets
-                of points of all the matches by warping 4 points using the homography matrix, and then labeling those points who show accurate results
-                as inliers. The threshold of how close warped points have to be to their computed match is a parameter, which I set to 5 pixels. 
-            </p>
-            <div class="image-gallery">
-                <div class="image-item-full">
-                    <div class="image-title">Some RANSAC inliers</div>
-                    <img src="media/inliers.png" alt="Original Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Manual bedroom blend</div>
-                    <img src="media/final.png" alt="Original Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Auto-stitching bedroom blend</div>
-                    <img src="media/bedroom_blend.png" alt="Original Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Manual balcony view blend</div>
-                    <img src="media/manual_balcony.png" alt="Original Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Auto-stitching balcony view blend</div>
-                    <img src="media/balcony_blend.png" alt="Original Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Manual corner blend</div>
-                    <img src="media/manual_corner.png" alt="Original Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Auto-stitching corner blend</div>
-                    <img src="media/corner_blend.png" alt="Original Image">
-                </div>
-            </div>
-            <p>
-                It seems that there are mixed results. For the balcony, you can see less blur in the orange area for the auto stitched mosaic,
-                indicating better results. For the corner image, you can see a better computed homography as the images are more properly aligned.
-                However, for the bedroom, it seems that the manual is actually better.
-                The reason for this and also what was really my cool takeaway from this project is that it makes perfect sense that doing this process
-                manually can actually lead to better results. Both of these methods are simply forms of picking corresponding points - the matching
-                algorithms are the same. Since I spent a lot of time picking many correspondence points for the bedroom image manually, it actually 
-                turns out that this has a better result. 
-                However, it is without a doubt that the RANSAC auto stitching method using harris corners is superior when generalized to more complex
-                situations. The efficiency to compute so many correspondence points is unmatched. Although using gradients may be less effective on
-                an indivdual point scale, generalizing to thousands or millions of points requires something like harris plus RANSAC, since it is more efficient,
-                and likely very accurate because the sample size is now huge and noise will often balance out. 
-            </p>
+                
         </section>
     </main>
 </body>
