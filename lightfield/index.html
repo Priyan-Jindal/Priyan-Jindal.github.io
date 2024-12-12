@@ -91,37 +91,27 @@
                 
         </section>
 
-        <!-- Part 2: Recover Homographies -->
         <section class="procedure">
-            <h2>Recover Homographies</h2>
-            <section class="procedure">
-                <h2>Homography Process</h2>
-                <p>A <strong>homography</strong> is a transformation between two images that describes how points in one image correspond to points in another, based on a projective transformation. The homography matrix <em>H</em> is a 3x3 matrix that maps a point <em>p</em> in one image to its corresponding point <em>p'</em> in another image, using the equation:</p>
-                <pre>
-                    p' = H * p
-                </pre>
-            
-                <p>Here, <em>p</em> and <em>p'</em> are points in homogeneous coordinates, which means they are represented as 3D vectors <code>[x, y, 1]</code>. The homography matrix <em>H</em> has eight degrees of freedom and is typically expressed as:</p>
-                <pre>
-                    H = | h11  h12  h13 |
-                        | h21  h22  h23 |
-                        | h31  h32  h33 |
-                </pre>
-            
-                <p>To compute <em>H</em>, we need at least 4 pairs of corresponding points between two images. Each point correspondence gives two equations, and with four point pairs, we have enough equations to solve for the 8 unknowns (the ninth value is set to 1 for normalization). The system of equations is solved using methods like Singular Value Decomposition (SVD).</p>
-            
-                <p>Once the homography matrix is computed, we can apply it to map every pixel in one image to its corresponding location in the second image, enabling us to warp one image into the perspective of the other.</p>
-            </section>
-
-            <div class="image-item">
-                    <div class="image-title">Left Image Correspondence Points</div>
-                    <img src="media/left_points.png" alt="Left Image">
+            <h2>Aperture Adjustment</h2>
+            <p>Aperture adjustment is a computational photography technique that simulates different camera aperture sizes by strategically selecting and averaging images from a light field grid. The implementation uses a radius-based approach to gradually reduce the number of images used in averaging, effectively mimicking how a smaller aperture would narrow the light gathering area of a camera. By selecting images from a central region of the grid and progressively reducing this region (from a radius of 0 to 7), the method creates a series of images that demonstrate how the apparent aperture size affects image sharpness and light gathering, without physically changing a camera lens. The code iterates through different radii, averaging only the images within that radius around a central reference point, which creates a computational representation of aperture adjustment that showcases how fewer light rays contribute to the final image. This technique allows for exploring depth of field and light gathering characteristics through simple mathematical operations on a grid of images taken from slightly different perspectives.</p>
+            <div class="image-gallery">
+                <div class="image-item">
+                    <div class="image-title">Radius = 0</div>
+                    <img src="media/aperture_0.png" alt="Left Image">
                 </div>
                 <div class="image-item">
-                    <div class="image-title">Right Image</div>
-                    <img src="media/right_points.png" alt="Right Image">
+                    <div class="image-title">Radius = 7</div>
+                    <img src="media/aperture_7.png" alt="Right Image">
                 </div>
+            </div>
+            <p>Aperture Refocusing Gif</p>
+            <div class="image-item-full">
+                <img src="media/apt_chess.gif" alt="Depth Refocusing" style="cursor: pointer;" onclick="this.src = this.src">
+            </div>
+                
         </section>
+
+
 
         <!-- Part 3: Warp the Images -->
         <section class="procedure">
