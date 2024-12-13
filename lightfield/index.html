@@ -158,79 +158,50 @@
         </section>
 
         <section class="procedure">
-            <h2>Depth Refocusing</h2>
-            <p>Depth refocusing is a computational photography technique that exploits the parallax effect, where light rays from different points in a scene arrive at slightly different angles when the camera moves. By capturing a grid of images along a single axis, the technique captures how light rays from objects at different distances shift relative to each other, creating a unique depth-dependent positioning effect. The method centers on a reference image and shifts surrounding images using a scaling factor (alpha), which mathematically adjusts the trajectories of these light rays to simulate different focal planes. As nearby objects cause more significant light ray displacement compared to distant objects, the shifting and averaging process creates images that can selectively sharpen or blur different depth regions. By using alpha values ranging from -1 to 3, the technique manipulates these light ray intersections, effectively allowing computational reconstruction of focus at various depths without physically changing the camera's lens.</p>
-            <div class="image-gallery">
-                <div class="image-item">
-                    <div class="image-title">Focus on far-depth, achieved with alpha=-0.50</div>
-                    <img src="media/-0.50.png" alt="Left Image">
-                </div>
-                <div class="image-item">
-                    <div class="image-title">Right Image</div>
-                    <img src="media/2.50.png" alt="Right Image">
-                </div>
-            </div>
-            <p>Depth Refocusing Gif (CLICK TO RESTART GIF)</p>
+            <h2>Constructing the HDR Radiance Map</h2>
+            <p>
+                These graphs illustrate the key concepts behind the construction of an HDR radiance map from multiple exposure images. The first two graphs show the recovered camera response function g, which maps pixel values to the logarithm of scene radiance. The process involves solving a linear system that relates the observed pixel values, exposure times, and an unknown but smooth function g.
+
+The third graph plots the final HDR radiance values as a function of the log exposure, demonstrating the wide dynamic range that can be captured by combining multiple exposures. The final graph overlays the individual camera response curves, highlighting how each exposure contributes information about a different range of radiance values.
+
+Together, these visualizations reveal the computational steps required to extract the underlying radiance information from a set of differently exposed images. By recovering the nonlinear camera response and then combining the exposure-dependent pixel values, the HDR reconstruction process can faithfully represent the full luminance range of the original scene, going beyond the limited dynamic range of any single photograph.
+
+            </p>
             <div class="image-item-full">
-                <img src="media/depth_chess.gif" alt="Depth Refocusing" style="cursor: pointer;" onclick="this.src = this.src">
+                <div class="image-title">G Curves</div>
+                <img src="media/first.png" alt="Left Image">
+            </div>
+            <p>
+                First, the camera's response function, which maps pixel values to scene radiance, needs to be recovered. This is done by solving a linear system that relates the observed pixel values, exposure times, and an unknown but smooth function called g. The resulting g function essentially allows translating the pixel data from each image into a common scale of scene radiance.
+Next, the multiple exposure images are processed one by one. For each image, the pixel values are weighted based on how well-exposed they are - pixels that are too bright or too dark get lower weights, while mid-range pixels get higher weights. These weighted pixel values, along with the exposure time, are then used to compute contributions to two running totals - a numerator and a denominator.
+After processing all the input images, the final HDR radiance map is computed by dividing the numerator by the denominator on a per-pixel basis. This has the effect of combining the information from the different exposures into a single high dynamic range representation of the scene's luminance levels.
+The last step is to exponentiate this log-scaled radiance map to obtain the actual HDR radiance values. This final HDR radiance map can then be used for various downstream applications, such as tone mapping to generate a displayable image.
+The key advantage of this approach is that it allows capturing a much wider range of luminance values than any single photograph could, by intelligently fusing the limited dynamic range of multiple exposures. This is a powerful computational photography technique for overcoming the limitations of traditional camera sensors.
+            </p>
+            <div class="image-item-full">
+                <div class="image-title">HDR Radiance Map</div>
+                <img src="media/second.png" alt="Depth Refocusing">
             </div>
                 
         </section>
 
         <section class="procedure">
-            <h2>Aperture Adjustment</h2>
-            <p>Aperture adjustment is a computational photography technique that simulates different camera aperture sizes by strategically selecting and averaging images from a light field grid. The implementation uses a radius-based approach to gradually reduce the number of images used in averaging, effectively mimicking how a smaller aperture would narrow the light gathering area of a camera. By selecting images from a central region of the grid and progressively reducing this region (from a radius of 0 to 7), the method creates a series of images that demonstrate how the apparent aperture size affects image sharpness and light gathering, without physically changing a camera lens. The code iterates through different radii, averaging only the images within that radius around a central reference point, which creates a computational representation of aperture adjustment that showcases how fewer light rays contribute to the final image. This technique allows for exploring depth of field and light gathering characteristics through simple mathematical operations on a grid of images taken from slightly different perspectives.</p>
-            <div class="image-gallery">
-                <div class="image-item">
-                    <div class="image-title">Radius = 0</div>
-                    <img src="media/aperture_0.png" alt="Left Image">
+            <h2>Tone Mapping</h2>
+<p>
+The three tone-mapping methods presented—Global Scale, Global Simple, and Durand—represent different approaches to converting a high dynamic range (HDR) radiance map into a displayable image. HDR images capture a wider range of light intensities than typical images, but they require tone mapping to compress this range into values suitable for standard displays.
+Global Scale: This method linearly scales the pixel intensities in the HDR map based on the global minimum and maximum values. It's simple but often fails to preserve details in very dark or bright areas, leading to loss of contrast.    
+Global Simple: Inspired by Reinhard et al., this approach compresses pixel intensities by dividing them by 1 + intensity. It maintains better overall contrast than Global Scale, producing more balanced results, especially in areas with extreme brightness.
+Durand: This method uses a local tone mapping technique, applying a bilateral filter to separate the HDR image into base (large-scale) and detail layers. It compresses the dynamic range of the base layer while preserving local details and recombines them with chrominance for more nuanced and realistic results.
+</p>                
+
+                <div class="image-item-full">
+                    <div class="image-title">Tone Mapping Results</div>
+                    <img src="media/third.png" alt="Right Image">
                 </div>
-                <div class="image-item">
-                    <div class="image-title">Radius = 7</div>
-                    <img src="media/aperture_7.png" alt="Right Image">
-                </div>
-            </div>
-            <p>Depth Refocusing Gif (CLICK TO RESTART GIF)</p>
-            <div class="image-item-full">
-                <img src="media/apt_chess.gif" alt="Depth Refocusing" style="cursor: pointer;" onclick="this.src = this.src">
-            </div>
                 
         </section>
 
-        <section class="procedure">
-            <h2>Summary</h2>
-            <p>In this project, I learned that light field photography allows me to computationally manipulate images captured from multiple perspectives to simulate advanced camera techniques like depth refocusing and aperture adjustment without physically changing lens properties. By understanding how light rays from different scene depths shift across a grid of images, I discovered that simple mathematical operations like shifting and averaging can dramatically transform image characteristics, effectively reconstructing focus and depth information. I learned that the parallax effect—where nearby objects move more significantly across images compared to distant objects—can be leveraged to create computational photography effects that mimic complex optical systems. The project showed me that a grid of images captures not just a single moment, but a rich, multidimensional representation of light rays passing through different points in space, allowing for post-capture manipulation of visual properties. Most importantly, I gained insight into how computational techniques can deconstruct and reconstruct visual information by treating images as data to be mathematically transformed, revealing the underlying computational principles that make advanced imaging techniques possible.</p>
-        </section>
-
-
-
-        <section class="procedure">
-            <h2>Bells and Whistles: Using Real Data</h2>
-            <p>In this part, I took my own pictures to simulate a light field camera. I drew a 5x5 grid on my desk, 
-            drawing spaces 2.5 inches apart. My results for depth refocusing and aperture adjustment were quite blurry. 
-            I imagine this is due to the lack of precision in exact grid positions and angles for the effects to be successful. 
-            I also only had a 5x5 grid, which may not be large enough.</p>
-            <div class="image-gallery">
-                <div class="image-item">
-                    <img src="media/01.png" alt="Left Image">
-                </div>
-                <div class="image-item">
-                    <img src="media/02.png" alt="Right Image">
-                </div>
-                <div class="image-item">
-                    <img src="media/03.png" alt="Right Image">
-                </div>
-            </div>
-            <p>Depth Refocusing (CLICK TO RESTART GIF)</p>
-            <div class="image-item-full">
-                <img src="media/depth_yoby.gif" alt="Depth Refocusing" style="cursor: pointer;" onclick="this.src = this.src">
-            </div>
-            <p>Aperture Adjustment (CLICK TO RESTART GIF)</p>
-            <div class="image-item-full">
-                <img src="media/apt_yoby.gif" alt="Aperture Refocusing" style="cursor: pointer;" onclick="this.src = this.src">
-            </div>
-                
-        </section>
+        
     </main>
 </body>
 </html>
