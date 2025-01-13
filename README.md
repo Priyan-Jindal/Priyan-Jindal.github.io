@@ -1,3 +1,3 @@
 # Priyan-Jindal.github.io
 
-C180 project website
+Github website with my computer vision projects!
